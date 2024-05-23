@@ -30,16 +30,22 @@ const InputError = require('../exceptions/InputError');
                 status: 'fail',
                 message: `${response.message}`
             })
-            
+
             newResponse.code(response.statusCode)
             return newResponse;
         }
 
+        
         if (response.isBoom) {
             const newResponse = h.response({
                 status: 'fail',
                 message: response.message
             })
+
+            if(response.output.error == 'Request Entity Too Large') {
+                newResponse.message = 'Payload content length greater than maximum allowed: 1000000';
+            }
+  
             newResponse.code(response.output.statusCode)
             return newResponse;
         }
