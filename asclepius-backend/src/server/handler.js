@@ -31,4 +31,18 @@ async function postPredictHandler(request, h) {
     return response;
 }
 
-module.exports = postPredictHandler;
+
+function getHistoriesHandler(request, h) {
+    const histories = storeData();
+    const response = h.response({
+        status: 'success',
+        data: {
+            histories
+        }
+    })
+
+    response.code(200);
+    return response;
+}
+
+module.exports = { postPredictHandler, getHistoriesHandler };
