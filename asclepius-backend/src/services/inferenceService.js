@@ -31,7 +31,7 @@ async function predictClassification(model, image) {
         } 
 
         if (confidenceScore <= 50) {
-            label = 'Non cancer';
+            label = 'Non-cancer';
             suggestion = "Tetap jaga kesehatan kulit dan hindari paparan sinar UV secara berlebihan."
         }
 
