@@ -32,16 +32,22 @@ async function postPredictHandler(request, h) {
 }
 
 
-function getHistoriesHandler(request, h) {
-    const histories = storeData();
+async function getHistoriesHandler(request, h) {
+    const predictionsCollection = db.collection('predictions');
+    const snapshot = await predictionsCollection.get();
+    const predictions = [];
+
+    snapshot.forEach(doc => {
+      predictions.push({ id: doc.id, ...doc.data() });
+    });
+
     const response = h.response({
         status: 'success',
-        data: {
-            histories
-        }
+        data: predictions
     })
 
     response.code(200);
+    
     return response;
 }
 
