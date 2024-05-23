@@ -1,0 +1,248 @@
+{
+	"info": {
+		"_postman_id": "df846297-ced6-4b46-a0ac-cd3f94ff0644",
+		"name": "Asclepius",
+		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json",
+		"_exporter_id": "13127137",
+		"_collection_link": "https://learning-xnape.postman.co/workspace/Back-End-Pemula-dengan-Google-C~f090a930-5cba-43ad-92e3-8d1dfb81233b/collection/13127137-df846297-ced6-4b46-a0ac-cd3f94ff0644?action=share&source=collection_link&creator=13127137"
+	},
+	"item": [
+		{
+			"name": "Prediction With Bad Request",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test('response status code should have 400 value', () => {\r",
+							"    pm.response.to.have.status(400);\r",
+							"});\r",
+							"\r",
+							"pm.test('response body should be an object', () => {\r",
+							"    const responseJson = pm.response.json();\r",
+							"    pm.expect(responseJson).to.be.an('object');\r",
+							"});\r",
+							"\r",
+							"pm.test('response body should have correct property and value', () => {\r",
+							"    const responseJson = pm.response.json();\r",
+							"    pm.expect(responseJson).to.ownProperty('status');\r",
+							"    pm.expect(responseJson.status).to.equals('fail');\r",
+							"\r",
+							"    pm.expect(responseJson).to.ownProperty('message');\r",
+							"    pm.expect(responseJson.message).to.equals('Terjadi kesalahan dalam melakukan prediksi');\r",
+							"})"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "image",
+							"type": "file",
+							"src": "/D:/MLGC/submissions/data tes/data-test-submissions/bad-request.jpg"
+						}
+					]
+				},
+				"url": "http://localhost:3000/predict"
+			},
+			"response": []
+		},
+		{
+			"name": "Prediction With Image Size More Than 1000000 byte",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test('response status code should have 413 value', () => {\r",
+							"    pm.response.to.have.status(413);\r",
+							"});\r",
+							"\r",
+							"pm.test('response body should be an object', () => {\r",
+							"    const responseJson = pm.response.json();\r",
+							"    pm.expect(responseJson).to.be.an('object');\r",
+							"});\r",
+							"\r",
+							"pm.test('response body should have correct property and value', () => {\r",
+							"    const responseJson = pm.response.json();\r",
+							"    pm.expect(responseJson).to.ownProperty('status');\r",
+							"    pm.expect(responseJson.status).to.equals('fail');\r",
+							"\r",
+							"    pm.expect(responseJson).to.ownProperty('message');\r",
+							"    pm.expect(responseJson.message).to.equals('Payload content length greater than maximum allowed: 1000000');\r",
+							"})"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "image",
+							"type": "file",
+							"src": "/D:/MLGC/submissions/data tes/data-test-submissions/more-than-1mb.jpg"
+						}
+					]
+				},
+				"url": "http://localhost:3000/predict"
+			},
+			"response": []
+		},
+		{
+			"name": "Prediction Non-Cancer",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test('response code should 201', () => {",
+							"    pm.response.to.have.status(201);",
+							"});",
+							"",
+							"pm.test('response body should be an object', () => {",
+							"    const payload = pm.response.json();",
+							"    pm.expect(typeof payload).to.equal('object');",
+							"});",
+							"",
+							"pm.test('response body should have correct data', () => {",
+							"    const payload = pm.response.json();",
+							"",
+							"    pm.expect(payload.status).to.equal('success');",
+							"    pm.expect(payload.message).to.equal('Model is predicted successfully');",
+							"    pm.expect(typeof payload.data).to.equal('object');",
+							"    pm.expect(typeof payload.data.id).to.equal('string');",
+							"    pm.expect(payload.data.result).to.equal('Non-cancer');",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "image",
+							"type": "file",
+							"src": "/D:/MLGC/submissions/data tes/data-test-submissions/cancer-1.png"
+						},
+						{
+							"key": "last",
+							"value": "jon",
+							"type": "text",
+							"disabled": true
+						}
+					]
+				},
+				"url": "http://localhost:3000/predict"
+			},
+			"response": []
+		},
+		{
+			"name": "Prediction Cancer",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test('response code should 201', () => {",
+							"    pm.response.to.have.status(201);",
+							"});",
+							"",
+							"pm.test('response body should be an object', () => {",
+							"    const payload = pm.response.json();",
+							"    pm.expect(typeof payload).to.equal('object');",
+							"});",
+							"",
+							"pm.test('response body should have correct data', () => {",
+							"    const payload = pm.response.json();",
+							"",
+							"    pm.expect(payload.status).to.equal('success');",
+							"    pm.expect(payload.message).to.equal('Model is predicted successfully');",
+							"    pm.expect(typeof payload.data).to.equal('object');",
+							"    pm.expect(typeof payload.data.id).to.equal('string');",
+							"    pm.expect(payload.data.result).to.equal('Cancer');",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "image",
+							"type": "file",
+							"src": "/home/dimas/Learn/gcp-ml/data-test-submissions/cancer-1.png"
+						}
+					]
+				},
+				"url": "http://localhost:3000/predict"
+			},
+			"response": []
+		},
+		{
+			"name": "[Opsional] getHistories",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test('response status code should have 200 value', () => {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"",
+							"pm.test('response body should be an object', () => {",
+							"    const responseJson = pm.response.json();",
+							"    pm.expect(responseJson).to.be.an('object');",
+							"});",
+							"",
+							"pm.test('response body should have correct property and value', () => {",
+							"    const responseJson = pm.response.json();",
+							"    pm.expect(responseJson).to.ownProperty('status');",
+							"    pm.expect(responseJson.status).to.equals('success');",
+							"    ",
+							"    pm.expect(responseJson).to.ownProperty('data');",
+							"    pm.expect(responseJson.data).to.be.an('array');",
+							"})"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": []
+				},
+				"url": "http://localhost:3000/predict/histories"
+			},
+			"response": []
+		}
+	]
+}
