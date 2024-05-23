@@ -1,6 +1,6 @@
+const { storeData, getHistories } = require("../services/firestore-helper");
 const predictClassification = require("../services/inferenceService");
 const crypto = require('crypto');
-const storeData = require("../services/storeData");
 
 async function postPredictHandler(request, h) {
     const { image } = request.payload;
@@ -33,13 +33,7 @@ async function postPredictHandler(request, h) {
 
 
 async function getHistoriesHandler(request, h) {
-    const predictionsCollection = db.collection('predictions');
-    const snapshot = await predictionsCollection.get();
-    const predictions = [];
-
-    snapshot.forEach(doc => {
-      predictions.push({ id: doc.id, ...doc.data() });
-    });
+    const predictions = await getHistories();
 
     const response = h.response({
         status: 'success',
@@ -47,7 +41,6 @@ async function getHistoriesHandler(request, h) {
     })
 
     response.code(200);
-    
     return response;
 }
 
