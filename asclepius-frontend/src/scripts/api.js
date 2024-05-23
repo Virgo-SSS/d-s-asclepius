@@ -1,5 +1,5 @@
-// TODO: Silakan sesuaikan BASE URL dari endpoint Anda
-const BASE_URL = 'YOUR_BASE_URL';
+// TODO: Silakan sesuaikan BASE URL dari endpoint backend Anda
+const BASE_URL = 'https://asclepius-backend-6khslvkdka-et.a.run.app';
 
 const ENDPOINT = {
   predict: `${BASE_URL}/predict`,
