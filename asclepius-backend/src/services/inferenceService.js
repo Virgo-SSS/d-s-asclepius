@@ -23,29 +23,22 @@ async function predictClassification(model, image) {
         const score = await prediction.data();
         const confidenceScore = Math.max(...score) * 100;
         
-        // const classes = ['Cancer', 'Non Cancer'];
-        // const classResult = tf.argMax(prediction, 1).dataSync()[0];
-        // const label = classes[classResult];
-
         let suggestion;
 
-        // if confidence score is less than 50%, return 'Non cancer'
-        if (confidenceScore <= 50) {
-            label = 'Non cancer';
-            suggestion = "Tetap jaga kesehatan kulit dan hindari paparan sinar UV secara berlebihan."
-        }
-
-        // if confidence score is more than 50%, return 'Cancer'
         if (confidenceScore > 50) {
             label = 'Cancer';
             suggestion = "Segera konsultasi dengan dokter terdekat untuk pemeriksaan lebih lanjut."
         } 
 
+        if (confidenceScore <= 50) {
+            label = 'Non cancer';
+            suggestion = "Tetap jaga kesehatan kulit dan hindari paparan sinar UV secara berlebihan."
+        }
+
         return { confidenceScore, label, suggestion };
     } catch (error) {
         throw new InputError(`Terjadi kesalahan input: ${error.message}`)
     }
-
    
 }
 
